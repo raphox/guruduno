@@ -16,7 +16,7 @@ exports.answerQuestion = functions.firestore
       fetch("https://guruduno.onrender.com/answer_question", {
         method: "post",
         body: JSON.stringify({
-          event: data,
+          data,
           collection: "questions",
           document: context.params.questionId,
         }),

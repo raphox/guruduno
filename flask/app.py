@@ -37,13 +37,13 @@ def answer_question():
     data = request.get_json()
 
     def long_running_task(**kwargs):
-        data = kwargs.get(
-            'post_data', {"event": {}, "collection": "",  "document": ""}
+        params = kwargs.get(
+            'post_data', {"data": {}, "collection": "",  "document": ""}
         )
 
-        event = data["event"]
-        collection_path = data["collection"]
-        document_path = data["document"]
+        data = params["data"]
+        collection_path = params["collection"]
+        document_path = params["document"]
 
         client = firestore.client()
 
@@ -51,7 +51,7 @@ def answer_question():
             collection_path).document(document_path)
 
         answer = None
-        question = event["value"]["fields"]["title"]["stringValue"]
+        question = data["title"]
         similarity_search = query_execute(question, k=1, namespace="questions")
 
         if similarity_search:
