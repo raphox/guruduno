@@ -1,0 +1,7 @@
+langchain
+unstructured
+openai
+pinecone-client
+firebase-admin
+flask
+flask-HTTPAuth
