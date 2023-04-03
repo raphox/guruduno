@@ -6,3 +6,4 @@ firebase-admin
 flask
 flask-HTTPAuth
 Gunicorn
+python-dotenv
