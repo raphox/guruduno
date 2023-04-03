@@ -21,7 +21,8 @@ exports.answerQuestion = functions.firestore
           document: context.params.questionId,
         }),
         headers: {
-          Authorization: `Bearer ${process.env.SECURITY_TOKEN}`,
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${process.env.SECURITY_TOKEN}`,
         },
       });
     });
