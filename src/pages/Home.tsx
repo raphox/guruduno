@@ -7,9 +7,12 @@ import {
   IonToolbar,
 } from "@ionic/react";
 import "./Home.css";
-import Question from "../components/Question";
+import { Question, NewQuestion } from "../components/Question";
+import { useStore } from "../store";
 
 const Home: React.FC = () => {
+  const { state } = useStore();
+
   return (
     <IonPage>
       <IonHeader>
@@ -19,11 +22,13 @@ const Home: React.FC = () => {
       </IonHeader>
       <IonContent fullscreen>
         <IonList>
-          {Array(10)
-            .fill(undefined)
-            .map((item, i) => (
-              <Question key={i} />
-            ))}
+          {state.questions.map((question) =>
+            question.id === "new" ? (
+              <NewQuestion key="new" {...question} />
+            ) : (
+              <Question key={question.id} {...question} />
+            )
+          )}
         </IonList>
       </IonContent>
     </IonPage>

@@ -22,6 +22,7 @@ import "./theme/variables.css";
 
 import HomeButton from "./components/HomeButton";
 import Tabs from "./components/Tabs";
+import { StoreProvider } from "./store";
 
 setupIonicReact();
 
@@ -29,8 +30,10 @@ const App: React.FC = () => {
   return (
     <IonApp>
       <IonReactRouter>
-        <Tabs />
-        <HomeButton />
+        <StoreProvider>
+          <Tabs />
+          <HomeButton />
+        </StoreProvider>
       </IonReactRouter>
     </IonApp>
   );

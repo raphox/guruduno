@@ -10,6 +10,7 @@ import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
 import "./HomeButton.css";
+import { useStore } from "../store";
 
 const MicButton: React.FC = () => {
   const {
@@ -23,6 +24,8 @@ const MicButton: React.FC = () => {
     return <HouseButton />;
   }
 
+  const { state, dispatch } = useStore();
+
   const handleTouchStart = () => {
     SpeechRecognition.startListening({ language: "pt-BR" });
   };
@@ -33,7 +36,14 @@ const MicButton: React.FC = () => {
     SpeechRecognition.stopListening();
     resetTranscript();
 
-    alert(transcript);
+    addNewQuestion(transcript);
+  };
+
+  const addNewQuestion = (title: string) => {
+    dispatch({
+      type: "ADD_QUESTION",
+      payload: { id: "new", title, answer: undefined },
+    });
   };
 
   return (
