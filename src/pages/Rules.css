@@ -1,0 +1,17 @@
+ol, ul {
+  padding-inline-start: 20px;
+}
+ol li, ul li {
+  margin-bottom: 5px;
+}
+blockquote {
+  margin-inline: 0;
+  background-color: rgba(200, 200, 200, 0.5);
+  padding: 15px;
+}
+blockquote p {
+  margin: 0;
+}
+a {
+  text-decoration: none;
+}
