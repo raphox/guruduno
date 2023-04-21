@@ -61,7 +61,6 @@ const MicButton: React.FC = () => {
         className={listening ? "listening" : ""}
         onPointerDown={handleTouchStart}
         onPointerUp={handleTouchEnd}
-        onPointerLeave={handleTouchEnd}
       >
         <IonIcon icon={listening ? stop : mic}></IonIcon>
       </IonFabButton>
