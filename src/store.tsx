@@ -42,16 +42,7 @@ const reducer = (state: typeof initialState, action: Action) => {
           questions: [action.payload, ...previewQuestions],
         };
       } else {
-        if (action.payload.id === "new") {
-          const previousQuestion = previewQuestions[index];
-
-          previewQuestions[index] = {
-            ...action.payload,
-            title: previousQuestion.title + " " + action.payload.title,
-          };
-        } else {
-          previewQuestions[index] = action.payload;
-        }
+        previewQuestions[index] = action.payload;
 
         return {
           ...state,

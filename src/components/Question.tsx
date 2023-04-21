@@ -141,7 +141,7 @@ const Question: React.FC<QuestionType> = ({ title, answer }) => {
             width={340}
             height={84}
             viewBox="0 0 340 84"
-            backgroundColor="#f3f3f3"
+            backgroundColor="rgba(200, 200, 200, 0.2)"
             foregroundColor="#ecebeb"
           >
             <rect x="0" y="0" rx="3" ry="3" width="67" height="11" />

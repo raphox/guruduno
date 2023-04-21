@@ -11,39 +11,47 @@ import SpeechRecognition, {
 } from "react-speech-recognition";
 import "./HomeButton.css";
 import { useStore } from "../store";
+import { useEffect, useState } from "react";
 
 const MicButton: React.FC = () => {
+  const [previousMessage, setPreviousMessage] = useState("");
+  const [message, setMessage] = useState("");
   const {
-    transcript,
+    finalTranscript: transcript,
     listening,
-    resetTranscript,
     browserSupportsSpeechRecognition,
+    resetTranscript,
   } = useSpeechRecognition();
 
   if (!browserSupportsSpeechRecognition) {
     return <HouseButton />;
   }
 
-  const { state, dispatch } = useStore();
+  const { dispatch } = useStore();
+
+  useEffect(() => {
+    if (message) {
+      dispatch({
+        type: "ADD_QUESTION",
+        payload: { id: "new", title: message, answer: undefined },
+      });
+    }
+  }, [message]);
+
+  useEffect(() => {
+    if (transcript) {
+      setMessage(`${previousMessage} ${transcript}`.trim());
+    }
+  }, [transcript]);
 
   const handleTouchStart = () => {
-    SpeechRecognition.startListening({ language: "pt-BR" });
+    SpeechRecognition.startListening({ language: "pt-BR", continuous: true });
   };
 
   const handleTouchEnd = () => {
-    if (!listening) return;
-
     SpeechRecognition.stopListening();
     resetTranscript();
-
-    addNewQuestion(transcript);
-  };
-
-  const addNewQuestion = (title: string) => {
-    dispatch({
-      type: "ADD_QUESTION",
-      payload: { id: "new", title, answer: undefined },
-    });
+    setPreviousMessage(`${message}`.trim());
   };
 
   return (
