@@ -26,7 +26,7 @@ const Home: React.FC = () => {
             question.id === "new" ? (
               <NewQuestion key="new" {...question} />
             ) : (
-              <Question key={question.id} {...question} />
+              question.title && <Question key={question.id} {...question} />
             )
           )}
         </IonList>

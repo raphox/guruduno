@@ -10,7 +10,7 @@ import {
 } from "@ionic/react";
 import { volumeHighOutline, stop, paperPlane, trash } from "ionicons/icons";
 import { useState, useEffect } from "react";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, doc, onSnapshot } from "firebase/firestore";
 import ContentLoader from "react-content-loader";
 import { Question as QuestionType, useStore } from "../store";
 import db from "../database";
@@ -67,6 +67,7 @@ const PlayButton: React.FC<{ text: string; disabled: boolean }> = ({
 };
 
 const NewQuestion: React.FC<QuestionType> = (data) => {
+  const [isLoading, setIsLoading] = useState(false);
   const { state, dispatch } = useStore();
   const { title } = state.newQuestion;
 
@@ -84,12 +85,29 @@ const NewQuestion: React.FC<QuestionType> = (data) => {
     });
   };
 
-  const addQuestion = () => {
-    addDoc(collection(db, "questions"), {
+  const addQuestion = async () => {
+    setIsLoading(true);
+
+    const title = state.newQuestion.title;
+
+    const docRef = await addDoc(collection(db, "questions"), {
       title: state.newQuestion.title,
     });
 
     removeQuestion();
+    setIsLoading(false);
+
+    onSnapshot(doc(db, "questions", docRef.id), (doc) => {
+      dispatch({
+        type: "UPDATE_QUESTION",
+        payload: { id: doc.id, ...doc.data() } as QuestionType,
+      });
+    });
+
+    dispatch({
+      type: "ADD_QUESTION",
+      payload: { id: docRef.id, title },
+    });
   };
 
   const handleChange = (event: Event) => {
@@ -119,11 +137,15 @@ const NewQuestion: React.FC<QuestionType> = (data) => {
       <IonCardContent></IonCardContent>
 
       <IonRow class="ion-justify-content-end">
-        <IonButton fill="clear" disabled={!title} onClick={addQuestion}>
+        <IonButton
+          fill="clear"
+          disabled={!title || isLoading}
+          onClick={addQuestion}
+        >
           <IonIcon slot="start" icon={paperPlane}></IonIcon>
           Enviar pergunta
         </IonButton>
-        <IonButton fill="clear" onClick={removeQuestion}>
+        <IonButton fill="clear" disabled={isLoading} onClick={removeQuestion}>
           <IonIcon slot="start" icon={trash}></IonIcon>
           Cancelar
         </IonButton>

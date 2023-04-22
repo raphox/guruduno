@@ -31,14 +31,13 @@ type Action =
 
 // Define the reducer function for the store
 const reducer = (state: typeof initialState, action: Action) => {
+  const previewQuestions = [...state.questions];
+  const index = previewQuestions.findIndex(
+    (element) => element.id === action.payload.id
+  );
+
   switch (action.type) {
     case "ADD_QUESTION":
-    case "UPDATE_QUESTION":
-      const previewQuestions = [...state.questions];
-      const index = previewQuestions.findIndex(
-        (element) => element.id === action.payload.id
-      );
-
       if (index === -1) {
         return {
           ...state,
@@ -61,6 +60,16 @@ const reducer = (state: typeof initialState, action: Action) => {
           (question) => question.id !== action.payload.id
         ),
       };
+
+    case "UPDATE_QUESTION":
+      if (index > -1) {
+        previewQuestions[index] = action.payload;
+
+        return {
+          ...state,
+          questions: previewQuestions,
+        };
+      }
 
     case "UPDATE_NEW_QUESTION":
       return {
@@ -99,50 +108,37 @@ const StoreProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const auth = getAuth();
   const [state, dispatch] = React.useReducer(reducer, initialState);
-  const questionsRef = collection(db, "questions");
   const filteredQuestions = query(
-    questionsRef,
+    collection(db, "questions"),
     where("answer", "!=", "Infelizmente não posso lhe ajudar com isso.")
   );
 
   React.useEffect(() => {
     signInAnonymously(auth).then(() => {
-      getDocs(filteredQuestions).then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          dispatch({
-            type: "ADD_QUESTION",
-            payload: { id: doc.id, ...doc.data() } as Question,
-          });
+      return onSnapshot(filteredQuestions, (snapshot) => {
+        snapshot.docChanges().forEach((change) => {
+          const doc = change.doc;
+          const data = doc.data();
+
+          if (change.type === "added") {
+            dispatch({
+              type: "ADD_QUESTION",
+              payload: { id: doc.id, ...data } as Question,
+            });
+          }
+          if (change.type === "modified") {
+            dispatch({
+              type: "UPDATE_QUESTION",
+              payload: { id: doc.id, ...data } as Question,
+            });
+          }
+          if (change.type === "removed") {
+            dispatch({
+              type: "REMOVE_QUESTION",
+              payload: { id: doc.id, ...data } as Question,
+            });
+          }
         });
-      });
-    });
-
-    return onSnapshot(query(questionsRef), (snapshot) => {
-      snapshot.docChanges().forEach((change) => {
-        const doc = change.doc;
-        const data = doc.data();
-
-        if (
-          change.type === "added" &&
-          data.answer !== "Infelizmente não posso lhe ajudar com isso."
-        ) {
-          dispatch({
-            type: "ADD_QUESTION",
-            payload: { id: doc.id, ...data } as Question,
-          });
-        }
-        if (change.type === "modified") {
-          dispatch({
-            type: "UPDATE_QUESTION",
-            payload: { id: doc.id, ...data } as Question,
-          });
-        }
-        if (change.type === "removed") {
-          dispatch({
-            type: "REMOVE_QUESTION",
-            payload: { id: doc.id, ...data } as Question,
-          });
-        }
       });
     });
   }, []);
