@@ -16,7 +16,10 @@ import ContentLoader from "react-content-loader";
 import { Question as QuestionType, useStore } from "../store";
 import db from "../database";
 
-const PlayButton: React.FC<{ text: string }> = ({ text }) => {
+const PlayButton: React.FC<{ text: string; disabled: boolean }> = ({
+  text,
+  disabled,
+}) => {
   const browserSupportsSpeechSynthesis = "speechSynthesis" in window;
 
   if (!browserSupportsSpeechSynthesis) {
@@ -47,7 +50,7 @@ const PlayButton: React.FC<{ text: string }> = ({ text }) => {
 
   return (
     <IonRow class="ion-justify-content-end">
-      <IonButton fill="clear" onClick={togglePlay}>
+      <IonButton fill="clear" disabled={disabled} onClick={togglePlay}>
         {playing ? (
           <>
             <IonIcon slot="start" icon={stop}></IonIcon>
@@ -65,25 +68,15 @@ const PlayButton: React.FC<{ text: string }> = ({ text }) => {
 };
 
 const NewQuestion: React.FC<QuestionType> = (data) => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [title, setTitle] = useState(data.title);
-  const { dispatch } = useStore();
+  const { state, dispatch } = useStore();
+  const { title } = state.newQuestion;
 
   useEffect(() => {
-    setTitle(data.title);
-    setIsLoading(data.id != "new" && !data.answer);
-  }, [data.title]);
-
-  const addQuestion = async () => {
     dispatch({
-      type: "REMOVE_QUESTION",
-      payload: { id: "new", title: "" },
+      type: "UPDATE_NEW_QUESTION",
+      payload: { id: "new", title: data.title },
     });
-
-    const docRef = await addDoc(collection(db, "questions"), {
-      title,
-    });
-  };
+  }, [data.title]);
 
   const removeQuestion = () => {
     dispatch({
@@ -92,10 +85,21 @@ const NewQuestion: React.FC<QuestionType> = (data) => {
     });
   };
 
+  const addQuestion = () => {
+    addDoc(collection(db, "questions"), {
+      title: state.newQuestion.title,
+    });
+
+    removeQuestion();
+  };
+
   const handleChange = (event: Event) => {
     const value = (event.target as HTMLInputElement).value as string;
 
-    setTitle(value);
+    dispatch({
+      type: "UPDATE_NEW_QUESTION",
+      payload: { id: "new", title: value },
+    });
   };
 
   return (
@@ -156,7 +160,7 @@ const Question: React.FC<QuestionType> = ({ title, answer }) => {
         )}
       </IonCardContent>
 
-      <PlayButton text={`${title}\n\n\n${answer}`} />
+      <PlayButton disabled={!answer} text={`${title}\n\n\n${answer}`} />
     </IonCard>
   );
 };

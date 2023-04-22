@@ -27,7 +27,13 @@ const MicButton: React.FC = () => {
     return <HouseButton />;
   }
 
-  const { dispatch } = useStore();
+  const { state, dispatch } = useStore();
+
+  useEffect(() => {
+    if (!state.newQuestion.title) {
+      setMessage("");
+    }
+  }, [state.newQuestion]);
 
   useEffect(() => {
     if (message) {

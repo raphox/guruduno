@@ -18,6 +18,7 @@ type Question = {
 
 // Define the initial state of the store
 const initialState = {
+  newQuestion: { id: "new" } as Question,
   questions: [] as Question[],
 };
 
@@ -25,13 +26,15 @@ const initialState = {
 type Action =
   | { type: "ADD_QUESTION"; payload: Question }
   | { type: "REMOVE_QUESTION"; payload: Question }
-  | { type: "UPDATE_QUESTION"; payload: Question };
+  | { type: "UPDATE_QUESTION"; payload: Question }
+  | { type: "UPDATE_NEW_QUESTION"; payload: Question };
 
 // Define the reducer function for the store
 const reducer = (state: typeof initialState, action: Action) => {
   switch (action.type) {
     case "ADD_QUESTION":
-      let previewQuestions = [...state.questions];
+    case "UPDATE_QUESTION":
+      const previewQuestions = [...state.questions];
       const index = previewQuestions.findIndex(
         (element) => element.id === action.payload.id
       );
@@ -53,17 +56,16 @@ const reducer = (state: typeof initialState, action: Action) => {
     case "REMOVE_QUESTION":
       return {
         ...state,
+        newQuestion: { id: "new" } as Question,
         questions: state.questions.filter(
           (question) => question.id !== action.payload.id
         ),
       };
 
-    case "UPDATE_QUESTION":
+    case "UPDATE_NEW_QUESTION":
       return {
         ...state,
-        questions: state.questions.map((question) =>
-          question.id === action.payload.id ? action.payload : question
-        ),
+        newQuestion: action.payload,
       };
 
     default:
