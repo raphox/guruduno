@@ -1,3 +1,7 @@
 ion-fab-button.listening {
   transform: scale(2);
 }
+
+ion-fab-button * {
+  pointer-events: none;
+}
