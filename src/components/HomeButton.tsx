@@ -14,10 +14,11 @@ import { useStore } from "../store";
 import { useEffect, useState } from "react";
 
 const MicButton: React.FC = () => {
-  const [previousMessage, setPreviousMessage] = useState("");
   const [message, setMessage] = useState("");
+  const [previousMessage, setPreviousMessage] = useState(message);
   const {
-    finalTranscript: transcript,
+    transcript,
+    finalTranscript,
     listening,
     browserSupportsSpeechRecognition,
     resetTranscript,
@@ -32,6 +33,8 @@ const MicButton: React.FC = () => {
   useEffect(() => {
     if (!state.newQuestion.title) {
       setMessage("");
+      setPreviousMessage("");
+      resetTranscript();
     }
   }, [state.newQuestion]);
 
@@ -45,10 +48,21 @@ const MicButton: React.FC = () => {
   }, [message]);
 
   useEffect(() => {
-    if (transcript) {
-      setMessage(`${previousMessage} ${transcript}`.trim());
-    }
+    setMessage(`${previousMessage} ${transcript}`.trim());
   }, [transcript]);
+
+  useEffect(() => {
+    let tmpFinalTranscript = finalTranscript;
+
+    if (tmpFinalTranscript.startsWith(transcript)) {
+      tmpFinalTranscript = tmpFinalTranscript.slice(transcript.length);
+    }
+
+    const finalMessage = `${previousMessage} ${tmpFinalTranscript}`;
+
+    setMessage(finalMessage.trim());
+    setPreviousMessage(finalMessage.trim());
+  }, [finalTranscript]);
 
   const handleTouchStart = () => {
     SpeechRecognition.startListening({ language: "pt-BR", continuous: true });
@@ -56,8 +70,6 @@ const MicButton: React.FC = () => {
 
   const handleTouchEnd = () => {
     SpeechRecognition.stopListening();
-    resetTranscript();
-    setPreviousMessage(`${message}`.trim());
   };
 
   return (
@@ -65,8 +77,11 @@ const MicButton: React.FC = () => {
       <IonFabButton
         color={listening ? "danger" : "primary"}
         className={listening ? "listening" : ""}
-        onPointerDown={handleTouchStart}
-        onPointerUp={handleTouchEnd}
+        onMouseDown={handleTouchStart}
+        onMouseUp={handleTouchEnd}
+        onMouseLeave={handleTouchEnd}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
       >
         <IonIcon icon={listening ? stop : mic}></IonIcon>
       </IonFabButton>
