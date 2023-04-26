@@ -5,7 +5,7 @@ import {
   IonCardHeader,
   IonCardTitle,
   IonIcon,
-  IonInput,
+  IonTextarea,
   IonRow,
 } from "@ionic/react";
 import { volumeHighOutline, stop, paperPlane, trash } from "ionicons/icons";
@@ -122,16 +122,17 @@ const NewQuestion: React.FC<QuestionType> = (data) => {
   return (
     <IonCard>
       <IonCardHeader>
-        <IonInput
+        <IonTextarea
           label="Sua Pergunta"
           labelPlacement="floating"
           fill="solid"
           placeholder="Faça sua pergunta"
           value={title}
+          autoGrow={true}
           counter={true}
           maxlength={250}
           onIonInput={handleChange}
-        ></IonInput>
+        ></IonTextarea>
       </IonCardHeader>
 
       <IonCardContent></IonCardContent>
