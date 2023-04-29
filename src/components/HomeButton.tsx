@@ -4,6 +4,7 @@ import {
   IonIcon,
   IonTabButton,
   useIonRouter,
+  isPlatform,
 } from "@ionic/react";
 import { home, mic, stop } from "ionicons/icons";
 import SpeechRecognition, {
@@ -72,16 +73,26 @@ const MicButton: React.FC = () => {
     SpeechRecognition.stopListening();
   };
 
+  let pointerEvents = {};
+
+  if (isPlatform("mobile") || isPlatform("mobileweb")) {
+    pointerEvents = {
+      onTouchStart: handleTouchStart,
+      onTouchEnd: handleTouchEnd,
+    };
+  } else {
+    pointerEvents = {
+      onPointerDown: handleTouchStart,
+      onPointerUp: handleTouchEnd,
+    };
+  }
+
   return (
     <IonFab horizontal="center" vertical="bottom" slot="fixed">
       <IonFabButton
         color={listening ? "danger" : "primary"}
         className={listening ? "listening" : ""}
-        onMouseDown={handleTouchStart}
-        onMouseUp={handleTouchEnd}
-        onMouseLeave={handleTouchEnd}
-        onTouchStart={handleTouchStart}
-        onTouchEnd={handleTouchEnd}
+        {...pointerEvents}
       >
         <IonIcon icon={listening ? stop : mic}></IonIcon>
       </IonFabButton>

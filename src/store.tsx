@@ -1,12 +1,6 @@
 import React from "react";
 import { getAuth, signInAnonymously } from "firebase/auth";
-import {
-  collection,
-  query,
-  getDocs,
-  where,
-  onSnapshot,
-} from "firebase/firestore";
+import { collection, query, where, onSnapshot } from "firebase/firestore";
 import db from "./database";
 
 // Define the question type
@@ -31,13 +25,14 @@ type Action =
 
 // Define the reducer function for the store
 const reducer = (state: typeof initialState, action: Action) => {
-  const previewQuestions = [...state.questions];
-  const index = previewQuestions.findIndex(
-    (element) => element.id === action.payload.id
-  );
-
   switch (action.type) {
     case "ADD_QUESTION":
+    case "UPDATE_QUESTION":
+      const previewQuestions = [...state.questions];
+      const index = previewQuestions.findIndex(
+        (element) => element.id === action.payload.id
+      );
+
       if (index === -1) {
         return {
           ...state,
@@ -60,16 +55,6 @@ const reducer = (state: typeof initialState, action: Action) => {
           (question) => question.id !== action.payload.id
         ),
       };
-
-    case "UPDATE_QUESTION":
-      if (index > -1) {
-        previewQuestions[index] = action.payload;
-
-        return {
-          ...state,
-          questions: previewQuestions,
-        };
-      }
 
     case "UPDATE_NEW_QUESTION":
       return {

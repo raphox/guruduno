@@ -8,6 +8,7 @@ import {
   IonTextarea,
   IonRow,
 } from "@ionic/react";
+import { useTranslation } from "react-i18next";
 import { volumeHighOutline, stop, paperPlane, trash } from "ionicons/icons";
 import { useState, useEffect } from "react";
 import { addDoc, collection, doc, onSnapshot } from "firebase/firestore";
@@ -19,6 +20,7 @@ const PlayButton: React.FC<{ text: string; disabled: boolean }> = ({
   text,
   disabled,
 }) => {
+  const { t, i18n } = useTranslation();
   const browserSupportsSpeechSynthesis = "speechSynthesis" in window;
 
   if (!browserSupportsSpeechSynthesis) {
@@ -40,7 +42,7 @@ const PlayButton: React.FC<{ text: string; disabled: boolean }> = ({
       synth.cancel();
     } else {
       utterance.text = text;
-      utterance.lang = "pt-BR";
+      utterance.lang = i18n.language;
       utterance.rate = 0.8;
 
       synth.speak(utterance);
@@ -53,12 +55,12 @@ const PlayButton: React.FC<{ text: string; disabled: boolean }> = ({
         {playing ? (
           <>
             <IonIcon slot="start" icon={stop}></IonIcon>
-            Parar reprodução
+            {t("message.stop")}
           </>
         ) : (
           <>
             <IonIcon slot="start" icon={volumeHighOutline}></IonIcon>
-            Reproduzir
+            {t("message.play")}
           </>
         )}
       </IonButton>
@@ -67,6 +69,7 @@ const PlayButton: React.FC<{ text: string; disabled: boolean }> = ({
 };
 
 const NewQuestion: React.FC<QuestionType> = (data) => {
+  const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
   const { state, dispatch } = useStore();
   const { title } = state.newQuestion;
@@ -123,10 +126,10 @@ const NewQuestion: React.FC<QuestionType> = (data) => {
     <IonCard>
       <IonCardHeader>
         <IonTextarea
-          label="Sua Pergunta"
+          label={t("message.label") as string}
           labelPlacement="floating"
           fill="solid"
-          placeholder="Faça sua pergunta"
+          placeholder={t("message.placeholder") as string}
           value={title}
           autoGrow={true}
           counter={true}
@@ -144,11 +147,11 @@ const NewQuestion: React.FC<QuestionType> = (data) => {
           onClick={addQuestion}
         >
           <IonIcon slot="start" icon={paperPlane}></IonIcon>
-          Enviar pergunta
+          {t("message.send")}
         </IonButton>
         <IonButton fill="clear" disabled={isLoading} onClick={removeQuestion}>
           <IonIcon slot="start" icon={trash}></IonIcon>
-          Cancelar
+          {t("message.cancel")}
         </IonButton>
       </IonRow>
     </IonCard>

@@ -1,4 +1,5 @@
 import {
+  IonButtons,
   IonContent,
   IonHeader,
   IonList,
@@ -9,15 +10,19 @@ import {
 import "./Home.css";
 import { Question, NewQuestion } from "../components/Question";
 import { useStore } from "../store";
+import LanguageSelect from "../components/LanguageSelect";
 
 const Home: React.FC = () => {
-  const { state } = useStore();
+  const { state, dispatch } = useStore();
 
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
           <IonTitle>Guruduno</IonTitle>
+          <IonButtons slot="end">
+            <LanguageSelect />
+          </IonButtons>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>

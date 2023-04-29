@@ -1,4 +1,5 @@
 import {
+  IonButtons,
   IonContent,
   IonHeader,
   IonPage,
@@ -6,27 +7,33 @@ import {
   IonToolbar,
 } from "@ionic/react";
 import ReactMarkdown from "react-markdown";
-import docs from "../docs.json";
+import { useTranslation } from "react-i18next";
+
+import LanguageSelect from "../components/LanguageSelect";
+
 import "./Rules.css";
 
-const rules = docs["pt-BR"]["rules"];
-
 const Rules: React.FC = () => {
+  const { t } = useTranslation();
+
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>{rules["title"]}</IonTitle>
+          <IonTitle>{t("rules.title")}</IonTitle>
+          <IonButtons slot="end">
+            <LanguageSelect />
+          </IonButtons>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
         <IonHeader collapse="condense">
           <IonToolbar>
-            <IonTitle size="large">{rules["title"]}</IonTitle>
+            <IonTitle size="large">{t("rules.title")}</IonTitle>
           </IonToolbar>
         </IonHeader>
         <IonContent className="ion-padding">
-          <ReactMarkdown children={rules["body"]} linkTarget="_blank" />
+          <ReactMarkdown children={t("rules.body")} linkTarget="_blank" />
         </IonContent>
       </IonContent>
     </IonPage>

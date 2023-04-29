@@ -20,8 +20,11 @@ import "@ionic/react/css/display.css";
 /* Theme variables */
 import "./theme/variables.css";
 
+import "./i18n";
+
 import HomeButton from "./components/HomeButton";
 import Tabs from "./components/Tabs";
+
 import { StoreProvider } from "./store";
 
 setupIonicReact();

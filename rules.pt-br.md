@@ -135,7 +135,7 @@ Como, muitas vezes, as regras são passadas no boca a boca, surgem muitas dúvid
 
 # Referências:
 
-- https://magg.sapo.pt/cultura/artigos/afinal-como-e-que-se-joga-mesmo-ao-uno
-- https://service.mattel.com/instruction_sheets/52277%20Uno.pdf
-- https://www.dicionariopopular.com/regras-do-uno-como-jogar/
-- https://boardgamegeek.com/filepage/68108/aprenda-jogar-uno
+- [https://magg.sapo.pt/cultura/artigos/afinal-como-e-que-se-joga-mesmo-ao-uno](https://magg.sapo.pt/cultura/artigos/afinal-como-e-que-se-joga-mesmo-ao-uno)
+- [https://service.mattel.com/instruction_sheets/52277%20Uno.pdf](https://service.mattel.com/instruction_sheets/52277%20Uno.pdf)
+- [https://www.dicionariopopular.com/regras-do-uno-como-jogar/](https://www.dicionariopopular.com/regras-do-uno-como-jogar/)
+- [https://boardgamegeek.com/filepage/68108/aprenda-jogar-uno](https://boardgamegeek.com/filepage/68108/aprenda-jogar-uno)
