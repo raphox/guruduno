@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { getAuth, signInAnonymously } from "firebase/auth";
 import { collection, query, where, onSnapshot } from "firebase/firestore";
 import db from "./database";
@@ -91,11 +92,13 @@ const useStore = () => {
 const StoreProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
+  const { i18n } = useTranslation();
   const auth = getAuth();
   const [state, dispatch] = React.useReducer(reducer, initialState);
   const filteredQuestions = query(
     collection(db, "questions"),
-    where("answer", "!=", "Infelizmente não posso lhe ajudar com isso.")
+    where("answer", "!=", "Infelizmente não posso lhe ajudar com isso."),
+    where("language", "==", i18n.language)
   );
 
   React.useEffect(() => {

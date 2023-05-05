@@ -5,7 +5,7 @@ import resources from "./translations.json";
 
 i18n.use(initReactI18next).init({
   resources,
-  lng: navigator.language || "en",
+  lng: navigator.language || "en-US",
   interpolation: {
     escapeValue: false,
   },

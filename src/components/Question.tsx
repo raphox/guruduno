@@ -69,7 +69,7 @@ const PlayButton: React.FC<{ text: string; disabled: boolean }> = ({
 };
 
 const NewQuestion: React.FC<QuestionType> = (data) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
   const { state, dispatch } = useStore();
   const { title } = state.newQuestion;
@@ -95,6 +95,7 @@ const NewQuestion: React.FC<QuestionType> = (data) => {
 
     const docRef = await addDoc(collection(db, "questions"), {
       title: state.newQuestion.title,
+      language: i18n.language,
     });
 
     removeQuestion();

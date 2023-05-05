@@ -10,11 +10,14 @@ load_dotenv()
 
 app = typer.Typer()
 
+
 @app.command()
 def reindex():
     from reindex import execute as reindex_execute
 
-    reindex_execute()
+    reindex_execute("pt-BR")
+    reindex_execute("en-US")
+
 
 @app.command()
 def query(question: str = typer.Option(None, help="Question about how to play Uno.")):

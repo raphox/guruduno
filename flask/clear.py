@@ -10,8 +10,6 @@ firebase_admin.initialize_app(cred)
 # Get a reference to the Firestore client
 db = firestore.client()
 
-# Define a function to delete a collection
-
 
 def delete_collection(coll_ref, batch_size):
     docs = coll_ref.limit(batch_size).stream()
@@ -25,12 +23,23 @@ def delete_collection(coll_ref, batch_size):
         return delete_collection(coll_ref, batch_size)
 
 
-# Get a reference to the collection to delete
 coll_ref = db.collection("questions")
 
-# Apply a filter to the collection
-coll_ref = coll_ref.where(
-    "answer", "==", "Infelizmente não posso lhe ajudar com isso.")
+# Remove invalid questions
+delete_collection(coll_ref.where(
+    "answer", "==", "Infelizmente não posso lhe ajudar com isso."), 100)
 
-# Call the function with a batch size of 100
-delete_collection(coll_ref, 100)
+question_titles = set()
+
+for doc in coll_ref.stream():
+    title = doc.to_dict().get("title")
+
+    # if the doc doesn't have a language, set as 'pt-BR'
+    if not doc.to_dict().get("language"):
+        doc.reference.update({"language": "pt-BR"})
+
+    if title in question_titles:
+        # Remove duplicated questions
+        coll_ref.document(doc.id).delete()
+    else:
+        question_titles.add(title)

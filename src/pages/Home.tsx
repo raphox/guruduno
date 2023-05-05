@@ -13,7 +13,7 @@ import { useStore } from "../store";
 import LanguageSelect from "../components/LanguageSelect";
 
 const Home: React.FC = () => {
-  const { state, dispatch } = useStore();
+  const { state } = useStore();
 
   return (
     <IonPage>

@@ -5,8 +5,9 @@ from langchain.text_splitter import MarkdownTextSplitter
 from langchain.document_loaders import UnstructuredMarkdownLoader
 from langchain.vectorstores import Pinecone
 
-def execute():
-    file_name = "rules.pt-br.md"
+
+def execute(language="pt-BR"):
+    file_name = f"rules.{language}.md"
     url = f"https://raw.githubusercontent.com/raphox/guruduno/main/{file_name}"
     response = requests.get(url)
 
@@ -14,9 +15,11 @@ def execute():
         with open(file_name, "wb") as f:
             f.write(response.content)
 
-            print(f"File {file_name} downloaded successfully.") # print a confirmation message
+            # print a confirmation message
+            print(f"File {file_name} downloaded successfully.")
     else:
-        print(f"Request failed with status code {response.status_code}.") # print an error message
+        # print an error message
+        print(f"Request failed with status code {response.status_code}.")
 
     loader = UnstructuredMarkdownLoader(file_name)
     documents = loader.load()
@@ -25,4 +28,4 @@ def execute():
 
     embeddings = OpenAIEmbeddings()
 
-    return Pinecone.from_documents(docs, embeddings, index_name="uno-rules")
+    return Pinecone.from_documents(docs, embeddings, index_name="uno-rules", namespace=f"{language}_rules")
