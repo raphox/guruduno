@@ -25,7 +25,7 @@ const Home: React.FC = () => {
           </IonButtons>
         </IonToolbar>
       </IonHeader>
-      <IonContent fullscreen>
+      <IonContent scrollEvents={true} fullscreen>
         <IonList>
           {state.questions.map((question) =>
             question.id === "new" ? (

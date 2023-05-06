@@ -34,6 +34,8 @@ const MicButton: React.FC = () => {
   }, [state.newQuestion]);
 
   useEffect(() => {
+    document.querySelector("ion-content")?.scrollToTop();
+
     if (message) {
       dispatch({
         type: "ADD_QUESTION",

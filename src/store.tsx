@@ -108,7 +108,10 @@ const StoreProvider: React.FC<{ children: React.ReactNode }> = ({
 
     const filteredQuestions = query(
       collection(db, "questions"),
-      where("answer", "!=", "Infelizmente não posso lhe ajudar com isso."),
+      where("answer", "not-in", [
+        "Infelizmente não posso lhe ajudar com isso.",
+        "I'm sorry, I can't help you with that.",
+      ]),
       where("language", "==", i18n.language)
     );
 
