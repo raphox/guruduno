@@ -93,25 +93,30 @@ const NewQuestion: React.FC<QuestionType> = (data) => {
 
     const title = state.newQuestion.title;
 
-    const docRef = await addDoc(collection(db, "questions"), {
-      title: state.newQuestion.title,
-      language: i18n.language,
-    });
-
-    removeQuestion();
-    setIsLoading(false);
-
-    onSnapshot(doc(db, "questions", docRef.id), (doc) => {
-      dispatch({
-        type: "UPDATE_QUESTION",
-        payload: { id: doc.id, ...doc.data() } as QuestionType,
+    try {
+      const docRef = await addDoc(collection(db, "questions"), {
+        title: state.newQuestion.title,
+        language: i18n.language,
       });
-    });
 
-    dispatch({
-      type: "ADD_QUESTION",
-      payload: { id: docRef.id, title },
-    });
+      removeQuestion();
+      setIsLoading(false);
+
+      onSnapshot(doc(db, "questions", docRef.id), (doc) => {
+        dispatch({
+          type: "UPDATE_QUESTION",
+          payload: { id: doc.id, ...doc.data() } as QuestionType,
+        });
+      });
+
+      dispatch({
+        type: "ADD_QUESTION",
+        payload: { id: docRef.id, title },
+      });
+    } catch (error) {
+      console.error("Error adding document: ", error);
+      setIsLoading(false);
+    }
   };
 
   const handleChange = (event: Event) => {

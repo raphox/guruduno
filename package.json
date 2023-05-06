@@ -9,7 +9,8 @@
     "preview": "vite preview",
     "test.e2e": "cypress run",
     "test.unit": "vitest",
-    "lint": "eslint"
+    "lint": "eslint",
+    "deploy": "ionic build --prod && firebase deploy --only hosting"
   },
   "dependencies": {
     "@capacitor/app": "4.1.1",
