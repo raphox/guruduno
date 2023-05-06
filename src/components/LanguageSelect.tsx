@@ -11,6 +11,7 @@ const LanguageSelect: React.FC = () => {
       interface="popover"
       class="ion-padding-end"
       className="language-select"
+      aria-label={t("languageSelect")}
       value={i18n.language}
       onIonChange={(e) => i18n.changeLanguage(e.detail.value)}
     >

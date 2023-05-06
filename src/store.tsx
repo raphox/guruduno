@@ -22,7 +22,8 @@ type Action =
   | { type: "ADD_QUESTION"; payload: Question }
   | { type: "REMOVE_QUESTION"; payload: Question }
   | { type: "UPDATE_QUESTION"; payload: Question }
-  | { type: "UPDATE_NEW_QUESTION"; payload: Question };
+  | { type: "UPDATE_NEW_QUESTION"; payload: Question }
+  | { type: "RESET_STATE" };
 
 // Define the reducer function for the store
 const reducer = (state: typeof initialState, action: Action) => {
@@ -63,6 +64,12 @@ const reducer = (state: typeof initialState, action: Action) => {
         newQuestion: action.payload,
       };
 
+    case "RESET_STATE":
+      return {
+        ...state,
+        ...initialState,
+      };
+
     default:
       return state;
   }
@@ -95,41 +102,52 @@ const StoreProvider: React.FC<{ children: React.ReactNode }> = ({
   const { i18n } = useTranslation();
   const auth = getAuth();
   const [state, dispatch] = React.useReducer(reducer, initialState);
-  const filteredQuestions = query(
-    collection(db, "questions"),
-    where("answer", "!=", "Infelizmente não posso lhe ajudar com isso."),
-    where("language", "==", i18n.language)
-  );
+
+  const getQuestions = () => {
+    dispatch({ type: "RESET_STATE" });
+
+    const filteredQuestions = query(
+      collection(db, "questions"),
+      where("answer", "!=", "Infelizmente não posso lhe ajudar com isso."),
+      where("language", "==", i18n.language)
+    );
+
+    const unsubscribe = onSnapshot(filteredQuestions, (snapshot) => {
+      snapshot.docChanges().forEach((change) => {
+        const doc = change.doc;
+        const data = doc.data();
+
+        if (change.type === "added") {
+          dispatch({
+            type: "ADD_QUESTION",
+            payload: { id: doc.id, ...data } as Question,
+          });
+        }
+        if (change.type === "modified") {
+          dispatch({
+            type: "UPDATE_QUESTION",
+            payload: { id: doc.id, ...data } as Question,
+          });
+        }
+        if (change.type === "removed") {
+          dispatch({
+            type: "REMOVE_QUESTION",
+            payload: { id: doc.id, ...data } as Question,
+          });
+        }
+      });
+    });
+
+    return () => unsubscribe();
+  };
 
   React.useEffect(() => {
     signInAnonymously(auth).then(() => {
-      return onSnapshot(filteredQuestions, (snapshot) => {
-        snapshot.docChanges().forEach((change) => {
-          const doc = change.doc;
-          const data = doc.data();
-
-          if (change.type === "added") {
-            dispatch({
-              type: "ADD_QUESTION",
-              payload: { id: doc.id, ...data } as Question,
-            });
-          }
-          if (change.type === "modified") {
-            dispatch({
-              type: "UPDATE_QUESTION",
-              payload: { id: doc.id, ...data } as Question,
-            });
-          }
-          if (change.type === "removed") {
-            dispatch({
-              type: "REMOVE_QUESTION",
-              payload: { id: doc.id, ...data } as Question,
-            });
-          }
-        });
-      });
+      getQuestions();
     });
   }, []);
+
+  React.useEffect(() => getQuestions(), [i18n.language]);
 
   return (
     <StoreContext.Provider value={{ state, dispatch }}>

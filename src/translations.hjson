@@ -1,6 +1,7 @@
 {
   "pt-BR": {
     "translation": {
+      "languageSelect": "Selecione seu idioma",
       "rules": {
         "title": "Regras do Uno",
         "body":
@@ -189,6 +190,7 @@
   },
   "en-US": {
     "translation": {
+      "languageSelect": "Select your language",
       "rules": {
         "title": "Uno Rules",
         "body":
