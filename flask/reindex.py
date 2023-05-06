@@ -1,4 +1,4 @@
-import requests
+import pinecone
 
 from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.text_splitter import MarkdownTextSplitter
@@ -7,20 +7,9 @@ from langchain.vectorstores import Pinecone
 
 
 def execute(language="pt-BR"):
-    file_name = f"rules.{language}.md"
-    url = f"https://raw.githubusercontent.com/raphox/guruduno/main/{file_name}"
-    response = requests.get(url)
+    pinecone.init()
 
-    if response.status_code == 200:
-        with open(file_name, "wb") as f:
-            f.write(response.content)
-
-            # print a confirmation message
-            print(f"File {file_name} downloaded successfully.")
-    else:
-        # print an error message
-        print(f"Request failed with status code {response.status_code}.")
-
+    file_name = f"../rules.{language}.md"
     loader = UnstructuredMarkdownLoader(file_name)
     documents = loader.load()
     markdown_splitter = MarkdownTextSplitter(chunk_size=750, chunk_overlap=0)

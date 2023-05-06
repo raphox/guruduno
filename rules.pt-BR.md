@@ -133,6 +133,10 @@ Como, muitas vezes, as regras são passadas no boca a boca, surgem muitas dúvid
 
     Segundo as regras oficiais, deve comprar somente uma e, mesmo que seja uma carta boa para o jogo, a pessoa não é obrigada a jogá-la.
 
+8. **Número de jogadores**
+
+    Você pode jogar Uno a partir de 2 jogadores e o número máximo é de 10 jogadores.
+
 # Referências:
 
 - [https://magg.sapo.pt/cultura/artigos/afinal-como-e-que-se-joga-mesmo-ao-uno](https://magg.sapo.pt/cultura/artigos/afinal-como-e-que-se-joga-mesmo-ao-uno)

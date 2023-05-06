@@ -32,12 +32,12 @@ CHAT_PROMPT_TEMPLATE = {
 }
 
 
-def execute(question, language="en-US"):
-    docs = query_execute(question)
+def execute(question, language):
+    docs = query_execute(question, f"{language}_rules")
     document, score = [None, 0] if not docs else docs[0]
 
-    if score < 0.8:
-        return AIMessage(content=CHAT_WITHOUT_ANSWER)
+    if score < 0.75:
+        return AIMessage(content=CHAT_WITHOUT_ANSWER[language])
 
     chat = ChatOpenAI(temperature=0)
 

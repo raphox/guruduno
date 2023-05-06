@@ -101,37 +101,41 @@ As rules are often passed on by word of mouth, many doubts arise. Some of the ma
 
 1. **Combination of +4 and +2 cards**
 
-A person dealt a *Draw Four Card Wild* card cannot play a *Draw Two Card* card on top, causing the next person to draw six cards.
+    A person dealt a *Draw Four Card Wild* card cannot play a *Draw Two Card* card on top, causing the next person to draw six cards.
 
-According to the official rule, when receiving the * Wild Draw Four Cards *, the player loses his turn and draws all four cards.
+    According to the official rule, when receiving the * Wild Draw Four Cards *, the player loses his turn and draws all four cards.
 
 2. **Combination of +4 and +4 cards**
 
-The movement of playing a *Draw Four Card Wild Card* (+4) over another equal card (another +4) is not allowed, as per the official rules of the game.
+    The movement of playing a *Draw Four Card Wild Card* (+4) over another equal card (another +4) is not allowed, as per the official rules of the game.
 
-It is also worth noting that the card *Wild Draw Four Cards* can only be used when the player does not have any card corresponding to the one on the table in his hand. If he cheats and is found out, he will have to draw the cards.
+    It is also worth noting that the card *Wild Draw Four Cards* can only be used when the player does not have any card corresponding to the one on the table in his hand. If he cheats and is found out, he will have to draw the cards.
 
 3. **Combination +2 and +2**
 
-Unlike the rules above, it is allowed to play a Buy Two (+2) card on top of the same card, even if they are of different colors.
+    Unlike the rules above, it is allowed to play a Buy Two (+2) card on top of the same card, even if they are of different colors.
 
 4. **Inverter (or Reverse) card in double**
 
-When playing in a double, the *Flip* card has the same effect as the Skip card. That is, the other player loses his turn.
+    When playing in a double, the *Flip* card has the same effect as the Skip card. That is, the other player loses his turn.
 
 5. **Do not shout "UNO"**
 
-If you don't yell "UNO!" when you put the penultimate card of your hand on the table and someone notices, you will have to draw two cards. But be careful: you only have to do this if they notice it before the next player plays the card. If you go after that, you won't have to buy anything.
+    If you don't yell "UNO!" when you put the penultimate card of your hand on the table and someone notices, you will have to draw two cards. But be careful: you only have to do this if they notice it before the next player plays the card. If you go after that, you won't have to buy anything.
 
 6. **Playing the wrong card**
 
-Whoever plays the wrong card pays. Or rather: buy! Whoever does this will have to draw two cards from the pile.
+    Whoever plays the wrong card pays. Or rather: buy! Whoever does this will have to draw two cards from the pile.
 
 7. **Buy multiple cards**
 
-If the person doesn't have a card to play on the table, he needs to draw one from the pile. What a lot of people don't know is that the player doesn't have to draw cards until they get one that can be played.
+    If the person doesn't have a card to play on the table, he needs to draw one from the pile. What a lot of people don't know is that the player doesn't have to draw cards until they get one that can be played.
 
-According to the official rules, you only have to draw one, and even if it's a good card for the game, you don't have to play it.
+    According to the official rules, you only have to draw one, and even if it's a good card for the game, you don't have to play it.
+
+8. **Number of Players**
+
+    You can play Uno from 2 players and the maximum number is 10 players.
 
 # References:
 

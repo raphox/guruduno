@@ -4,7 +4,7 @@ from langchain.vectorstores import Pinecone
 from langchain.embeddings.openai import OpenAIEmbeddings
 
 
-def execute(query, k=2, index_name="uno-rules", namespace="rules"):
+def execute(query, namespace, k=2, index_name="uno-rules"):
     pinecone.init()
 
     index = pinecone.Index(index_name)
@@ -14,7 +14,7 @@ def execute(query, k=2, index_name="uno-rules", namespace="rules"):
     return vectorstore.similarity_search_with_score(query, k=k, namespace=namespace)
 
 
-def upsert_question(question, answer, index_name="uno-rules", namespace="questions"):
+def upsert_question(question, answer, language, index_name="uno-rules"):
     embeddings = OpenAIEmbeddings()
     metadata = {"answer": answer}
 
@@ -23,5 +23,5 @@ def upsert_question(question, answer, index_name="uno-rules", namespace="questio
         embeddings,
         metadatas=[metadata],
         index_name=index_name,
-        namespace=namespace
+        namespace=f"{language}_questions"
     )

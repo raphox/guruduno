@@ -53,20 +53,18 @@ def answer_question():
         answer = None
         language = data["language"]
         question = data["title"]
-        similarity_search = query_execute(
-            question, k=1, namespace=f"{language}_rules")
+        similar_questions = query_execute(
+            question, f"{language}_questions", k=1)
 
-        if similarity_search:
-            document, score = similarity_search[0]
+        if similar_questions:
+            document, score = similar_questions[0]
 
             if score > 0.95:
                 answer = AIMessage(content=document.metadata['answer'])
 
         if not answer:
-            answer = ask_execute(question, language,
-                                 namespace=f"{language}_question")
-            upsert_question(question, answer.content,
-                            namespace=f"{language}_question")
+            answer = ask_execute(question, language)
+            upsert_question(question, answer.content, language)
 
         affected_doc.update({
             u'answer': answer.content
