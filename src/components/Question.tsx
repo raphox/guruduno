@@ -21,12 +21,6 @@ const PlayButton: React.FC<{ text: string; disabled: boolean }> = ({
   disabled,
 }) => {
   const { t, i18n } = useTranslation();
-  const browserSupportsSpeechSynthesis = "speechSynthesis" in window;
-
-  if (!browserSupportsSpeechSynthesis) {
-    return null;
-  }
-
   const synth = window.speechSynthesis;
   const utterance = new SpeechSynthesisUtterance();
 
