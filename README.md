@@ -21,3 +21,9 @@ This app was created as a proof of concept to test the feasibility of developing
 For example, you can use this application to create a chatbot that answers questions about a specific product or service, using the official product or service documentation as a source of information. Or you can use this application to create a chatbot that answers questions about a topic of general interest, using a database of articles or books on the topic as a source of information. Or you can use this app to create a chatbot that answers questions about a famous personality, using a database of biographies or interviews about the personality as the source of information.
 
 The purpose of this application is to demonstrate the potential of ChatGPT to generate coherent and relevant responses from a structured and updated database. You can explore the different functionalities of the app and ask any questions you want. We hope you enjoy this experience and give us your feedback.
+
+### Blog posts:
+
+* https://medium.com/@raphox/trying-to-maintain-a-workable-budget-creating-a-chatbot-using-gpt-and-vector-database-a04931040698
+* https://medium.com/@raphox/integrating-google-firebase-firestore-with-chatgpt-api-saving-money-a90148e619b9
+* https://medium.com/@raphox/integrating-google-firebase-firestore-with-chatgpt-api-the-frontend-3178045c5ae7
